@@ -1,0 +1,13 @@
+app:
+  name: sync
+  psql:
+    host:   34.76.135.216
+    port:   5432
+    user:   postgres
+    pass:   12345
+    db:     league
+dashboard:
+  log:
+    # file: "/home/iugo/Logs/app/dashboard_app.log"
+    file: "dashboard_app.log"
+    debug: true
