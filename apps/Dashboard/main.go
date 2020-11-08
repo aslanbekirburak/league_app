@@ -1,8 +1,8 @@
 package main
 
 import (
-	"league/apps/Dashboard/controllers"
-	"league/common/gorm"
+	"league_app/apps/Dashboard/controllers"
+	"league_app/common/gorm"
 	"os"
 	"github.com/spf13/viper"
 	"fmt"

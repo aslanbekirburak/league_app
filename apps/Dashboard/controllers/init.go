@@ -3,9 +3,9 @@ package controllers
 import
 	(
 		"fmt"
-		"league/apps/Dashboard/interactors"
-		"league/apps/Dashboard/interfaces"
-		"league/entities"
+		"league_app/apps/Dashboard/interactors"
+		"league_app/apps/Dashboard/interfaces"
+		"league_app/entities"
 		"time"
 		"math/rand"
 		"net/http"
@@ -19,12 +19,13 @@ type GameRules struct {}
 
 func(gr *GameRules) StartApplication(res http.ResponseWriter,req *http.Request) {
 	Game = &interactors.Game{}
+	fmt.Println("App Started")
 	res.Header().Set("Content-Type", "text/event-stream")
 	res.Header().Set("Cache-Control", "no-cache")
 	res.Header().Set("Connection", "keep-alive")
 	res.Header().Set("Access-Control-Allow-Origin", "*") 
 	
-	// gr.CheckTime(res)
+	gr.CheckTime(res)
 }
 
 func Randomize ()(randomNumber int){
@@ -69,7 +70,7 @@ func(gr *GameRules) CheckTime(res http.ResponseWriter) error {
 			fmt.Println("TeamPlayer",err)
 		}
 		res.Write(data)
-		fmt.Fprintf(res, "%s\n", "SONUCA ulaşıldı")
+		fmt.Fprintf(res, "%s\n", data)
 		flusher.Flush()
 
 		var d = 5000 * time.Microsecond
@@ -83,9 +84,11 @@ func(gr *GameRules) AddScoreToTeam(teamId int)(){
 	if err != nil {
 		fmt.Println("TeamPlayer",err)
 	}
+	fmt.Println(team.Name," Team get Score")
 	scoreToAdd := rand.Intn(2)+2
 	teamToUpdate := entities.Team{
 		Score: team.Score + scoreToAdd,
+		AttackCount: team.AttackCount + 1,
 	}
 	err = Game.UpdateTeam(teamId,teamToUpdate)
 	if err != nil {
@@ -115,6 +118,9 @@ func(gr *GameRules) AddScoreToPlayer(player entities.Player,scoreToAdd int)(){
 	}
 	
 	err := Game.UpdatePlayer(player.Id,playerToUpdate)
-	fmt.Println(err)	
+	if err != nil {
+		fmt.Println(err)	
+	}
+	fmt.Println(player.Name," Player set score")
 }
 

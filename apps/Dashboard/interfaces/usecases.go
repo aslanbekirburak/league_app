@@ -1,7 +1,7 @@
 package interfaces
 
 import (
-	. "league/entities"
+	. "league_app/entities"
 )
 
 type GameUseCases interface {

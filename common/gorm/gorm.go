@@ -1,10 +1,9 @@
 package gorm
 
 import (
-	"league/entities"
+	"league_app/entities"
 	"fmt"
 
-	// . "league/common/logger"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )

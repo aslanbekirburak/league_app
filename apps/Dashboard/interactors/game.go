@@ -1,8 +1,8 @@
 package interactors
 
 import (
-	"league/common/gorm"
-	"league/entities"
+	"league_app/common/gorm"
+	"league_app/entities"
 	"fmt"
 	gormg "github.com/jinzhu/gorm"
 
