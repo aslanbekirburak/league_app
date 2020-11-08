@@ -1,4 +1,4 @@
-### league_app
+# league_app
 
-# cd apps/Dashboard
-# go run main.go
+#### cd apps/Dashboard
+#### go run main.go
