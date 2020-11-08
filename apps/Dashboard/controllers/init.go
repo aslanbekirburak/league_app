@@ -18,8 +18,9 @@ var GameTime, TeamCount int
 type GameRules struct {}
 
 func(gr *GameRules) StartApplication(res http.ResponseWriter,req *http.Request) {
+
 	Game = &interactors.Game{}
-	fmt.Println("App Started")
+
 	res.Header().Set("Content-Type", "text/event-stream")
 	res.Header().Set("Cache-Control", "no-cache")
 	res.Header().Set("Connection", "keep-alive")
@@ -33,6 +34,7 @@ func Randomize ()(randomNumber int){
 }
 
 func(gr *GameRules) CreateRivals()(rivals map[int]int){
+	// Make team pairs for weekly challenges
 	TeamCount = 15
 	m := make(map[int]bool)
 	matches := make(map[int]int)
@@ -53,8 +55,8 @@ func(gr *GameRules) CheckTime(res http.ResponseWriter) error {
 	flusher,_:=res.(http.Flusher)
 	rivals := gr.CreateRivals()
 	for i := 0; i < GameTime; i++ {
-
-		for k, v := range rivals { 
+		for k, v := range rivals {
+			// Change attack side 
 			if i%2 == 0{
 				gr.AddScoreToTeam(k)
 			}else{
@@ -70,9 +72,10 @@ func(gr *GameRules) CheckTime(res http.ResponseWriter) error {
 			fmt.Println("TeamPlayer",err)
 		}
 		res.Write(data)
+		//Server Side Events
 		fmt.Fprintf(res, "%s\n", data)
 		flusher.Flush()
-
+		fmt.Println("Attacks Completed")
 		var d = 5000 * time.Microsecond
 		time.Sleep(d)
 	}
@@ -98,6 +101,7 @@ func(gr *GameRules) AddScoreToTeam(teamId int)(){
 	if err != nil {
 		fmt.Println("UpdatePlayer",err)
 	}
+	//Select Randomly Scorer Player
 	selectPlayer := rand.Intn(len(players)-1)+1
 	gr.AddScoreToPlayer(players[selectPlayer], scoreToAdd)
 }
