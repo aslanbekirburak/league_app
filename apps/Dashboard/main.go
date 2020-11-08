@@ -7,8 +7,8 @@ import (
 	"github.com/spf13/viper"
 	"fmt"
 	"net/http"
-	// "time"
-	// "math/rand"
+	"time"
+	"math/rand"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
@@ -53,13 +53,11 @@ func main() {
 	s.LogFile = viper.GetString("dashboard.log.file")
 	s.Debug = viper.GetBool("app.log.debug")
 	gorm.InitGorm(s.PsqlHost, s.PsqlPort, s.PsqlDB, s.PsqlUser, s.PsqlPass)
-	// rand.Seed( time.Now().UnixNano())
+	rand.Seed( time.Now().UnixNano())
 	
-	// fmt.Println(rand.Intn(30))
-
 	controller := controllers.GameRules{}
 	
-	http.HandleFunc("/",controller.StartApplication)
+	http.HandleFunc("/start",controller.StartApplication)
 	http.ListenAndServe(":8082", nil)
 	
 }
